@@ -289,7 +289,8 @@ ComputePipeline::ComputePipeline(const Device& device_, Scheduler& scheduler, vk
             .stage{
                 .sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO,
                 .pNext = device.IsExtSubgroupSizeControlSupported() && uses_warp_ops &&
-                                 device.IsGuestWarpSizeSupported(VK_SHADER_STAGE_COMPUTE_BIT)
+                                 device.IsGuestWarpSizeSupported(VK_SHADER_STAGE_COMPUTE_BIT) &&
+                                 !std::getenv("EDEN_NX2_TEST_NO_FORCED_SUBGROUP")
                              ? &subgroup_size_ci
                              : nullptr,
                 .flags = info.uses_cooperative_matrix
